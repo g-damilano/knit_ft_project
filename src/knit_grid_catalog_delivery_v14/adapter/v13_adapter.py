@@ -250,6 +250,25 @@ def _grid_from_payload(raw: Any, fallback: GridParams) -> GridParams:
     )
 
 
+def _grid_periods_match_visible_metadata(payload_grid: GridParams, metadata_grid: GridParams) -> bool:
+    """
+    Return False when the visible YAML gauge clearly implies different periods.
+
+    Imported catalog TIFFs carry an exact grid payload, which is preferable when
+    it still agrees with the editable metadata. If the operator changes the
+    visible gauge later, keep delivery aligned with what the inspector canvas
+    shows instead of silently preserving stale embedded periods.
+    """
+    if metadata_grid.axis_a_px <= 0 or metadata_grid.axis_b_px <= 0:
+        return True
+    if payload_grid.axis_a_px <= 0 or payload_grid.axis_b_px <= 0:
+        return False
+
+    rel_a = abs(payload_grid.axis_a_px - metadata_grid.axis_a_px) / metadata_grid.axis_a_px
+    rel_b = abs(payload_grid.axis_b_px - metadata_grid.axis_b_px) / metadata_grid.axis_b_px
+    return max(rel_a, rel_b) <= 0.01
+
+
 def _quality_from_payload(raw: Any, fallback: QualityMetrics) -> QualityMetrics:
     if not isinstance(raw, dict):
         return fallback
@@ -271,9 +290,9 @@ def record_from_payload(
     """
     Rebuild a CatalogRecord from a previously exported layered TIFF payload.
 
-    The current editable metadata wins for labels, but the original grid
-    periods/phase and quality metrics are preserved so re-saving an imported
-    catalog TIFF does not degrade the cover crop or grid overlay.
+    The current editable metadata wins for labels. Embedded grid periods/phase
+    are preserved when they still agree with that visible metadata; otherwise
+    the visible metadata grid is used so re-saving cannot keep a stale overlay.
     """
     fallback = record_from_metadata(image_path, metadata)
     image_path = Path(image_path)
@@ -282,13 +301,20 @@ def record_from_payload(
     sample = SampleMetadata(
         **sample_metadata_kwargs(metadata, sample_id=sample_id, source_image_name=image_path.name)
     )
+    micro_grid = _grid_from_payload(payload.get("micro_grid"), fallback.micro_grid)
+    target_grid = _grid_from_payload(payload.get("wale_target_grid"), fallback.wale_target_grid)
+    use_metadata_grid = not _grid_periods_match_visible_metadata(target_grid, fallback.wale_target_grid)
+    if use_metadata_grid:
+        micro_grid = fallback.micro_grid
+        target_grid = fallback.wale_target_grid
+
     return CatalogRecord(
         sample=sample,
         source_image_path=str(image_path),
-        micro_grid=_grid_from_payload(payload.get("micro_grid"), fallback.micro_grid),
-        wale_target_grid=_grid_from_payload(payload.get("wale_target_grid"), fallback.wale_target_grid),
-        wale_axis=str(payload.get("wale_axis") or fallback.wale_axis),
-        wale_multiplier=_float_or(payload.get("wale_multiplier"), fallback.wale_multiplier),
+        micro_grid=micro_grid,
+        wale_target_grid=target_grid,
+        wale_axis=fallback.wale_axis if use_metadata_grid else str(payload.get("wale_axis") or fallback.wale_axis),
+        wale_multiplier=fallback.wale_multiplier if use_metadata_grid else _float_or(payload.get("wale_multiplier"), fallback.wale_multiplier),
         quality=_quality_from_payload(payload.get("quality"), fallback.quality),
         layers=[],
         analysis_source=str(payload.get("analysis_source") or fallback.analysis_source),

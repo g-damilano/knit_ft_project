@@ -15,8 +15,6 @@ CARD_W, CARD_H = 658, 479
 PAGE_BG = (244, 244, 241)
 IMAGE_H_FRAC = 304 / 479
 RIGHT_STRIP_FRAC = 0.32
-TARGET_GRID_COLS_IN_STRIP = 4.0
-TARGET_GRID_ROWS_IN_IMAGE = 5.0
 
 
 def _mix_rgb(a: Tuple[int, int, int], b: Tuple[int, int, int], amount: float) -> Tuple[int, int, int]:
@@ -229,30 +227,15 @@ def grid_reference_transform(
     strip_w: int,
 ) -> Tuple[float, float, float]:
     """
-    Choose a cover crop scale from the detected grid, not from whole-image fit.
+    Use the same cover-fill image projection for texture and grid overlay.
 
-    This keeps the displayed stitch scale stable when an input image contains
-    many more repeats than the example cover.
+    Earlier cover cards scaled the crop from the grid period so the right strip
+    always showed a small fixed number of cells. That made the cover disagree
+    with the inspector canvas. Keeping the transform image-based means the
+    grid is rendered in original image pixels, then projected into the crop.
     """
     src_w, src_h = source_size
-    cover_scale = max(out_w / src_w, out_h / src_h)
-
-    desired_a = strip_w / TARGET_GRID_COLS_IN_STRIP
-    desired_b = out_h / TARGET_GRID_ROWS_IN_IMAGE
-    scale_votes = []
-    if getattr(grid, "axis_a_px", 0) and grid.axis_a_px > 0:
-        scale_votes.append(desired_a / float(grid.axis_a_px))
-    if getattr(grid, "axis_b_px", 0) and grid.axis_b_px > 0:
-        scale_votes.append(desired_b / float(grid.axis_b_px))
-
-    grid_scale = sum(scale_votes) / len(scale_votes) if scale_votes else cover_scale
-    scale = max(cover_scale, grid_scale)
-
-    resized_w = src_w * scale
-    resized_h = src_h * scale
-    crop_left = max(0.0, (resized_w - out_w) / 2.0)
-    crop_top = max(0.0, (resized_h - out_h) / 2.0)
-    return scale, crop_left, crop_top
+    return coverfit_transform(src_w, src_h, out_w, out_h)
 
 
 def render_grid_referenced_top(

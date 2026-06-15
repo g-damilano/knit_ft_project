@@ -14,6 +14,7 @@ import collections
 import csv
 import io
 import json
+import math
 import os
 import queue
 import re
@@ -1325,9 +1326,29 @@ class _SinglePreview(QWidget):
         self._rows: "float | None" = None
         self._structure = ""
         self._axis_order = "needle / row"
+        self._source_w = 0
+        self._source_h = 0
+        self._dpi_x: "float | None" = None
+        self._dpi_y: "float | None" = None
 
     def set_axis_order(self, order: str) -> None:
         self._axis_order = order or "needle / row"
+        self.update()
+
+    def set_source_metrics(
+        self,
+        source_size: "tuple[int, int] | None",
+        dpi_x: "float | None" = None,
+        dpi_y: "float | None" = None,
+    ) -> None:
+        if source_size:
+            self._source_w = max(0, int(source_size[0]))
+            self._source_h = max(0, int(source_size[1]))
+        else:
+            self._source_w = 0
+            self._source_h = 0
+        self._dpi_x = dpi_x if dpi_x and dpi_x > 0 else None
+        self._dpi_y = dpi_y if dpi_y and dpi_y > 0 else None
         self.update()
 
     def set_image(self, pixmap: "QPixmap | None") -> None:
@@ -1348,11 +1369,35 @@ class _SinglePreview(QWidget):
             self.clicked.emit()
         super().mousePressEvent(event)
 
+    def _grid_in_source_pixels(self) -> "tuple[float, float, float, float] | None":
+        n, r = self._needles, self._rows
+        if not (n and n > 0 and r and r > 0):
+            return None
+
+        # When rows run along X (row/needle axis), swap cell dimensions.
+        cn, cr = (r, n) if self._axis_order == "row / needle" else (n, r)
+        if not (cn and cn > 0 and cr and cr > 0):
+            return None
+
+        if self._dpi_x and self._dpi_y:
+            cw = self._dpi_x / 2.54 * 10.0 / cn
+            ch = self._dpi_y / 2.54 * 10.0 / cr
+        elif self._source_w > 0 and self._source_h > 0:
+            cw = self._source_w / cn
+            ch = self._source_h / cr
+        else:
+            return None
+
+        return (cw, ch, 0.0, 0.0) if cw > 0 and ch > 0 else None
+
     def paintEvent(self, _event) -> None:
         p = QPainter(self)
         p.setRenderHint(QPainter.RenderHint.Antialiasing)
         p.setRenderHint(QPainter.RenderHint.SmoothPixmapTransform)
         w, h = self.THUMB_W, self.THUMB_H
+        source_scale = 1.0
+        crop_left = 0.0
+        crop_top = 0.0
 
         clip = QPainterPath()
         clip.addRoundedRect(QRectF(0, 0, w, h), 12, 12)
@@ -1366,6 +1411,14 @@ class _SinglePreview(QWidget):
             )
             ox = (scaled.width() - w) // 2
             oy = (scaled.height() - h) // 2
+            source_w = self._source_w or self._pixmap.width()
+            source_h = self._source_h or self._pixmap.height()
+            if source_w > 0:
+                source_scale = scaled.width() / source_w
+            elif source_h > 0:
+                source_scale = scaled.height() / source_h
+            crop_left = float(ox)
+            crop_top = float(oy)
             p.drawPixmap(-ox, -oy, scaled)
         else:
             p.fillRect(0, 0, w, h, QColor("#e8e8e4"))
@@ -1375,22 +1428,31 @@ class _SinglePreview(QWidget):
         p.setPen(QPen(QColor(255, 255, 255, 178), 1.5))
         p.drawLine(QPointF(ovx, 0), QPointF(ovx, h))
 
-        n, r = self._needles, self._rows
-        # When axis is row/needle, rows run along X and needles along Y — swap cell dimensions.
-        if self._axis_order == "row / needle":
-            n, r = r, n
-        if n and n > 0 and r and r > 0:
-            cw = max(6.0, min(40.0, 460.0 / n))
-            ch = max(6.0, min(40.0, 460.0 / r))
+        grid = self._grid_in_source_pixels()
+        if grid is not None:
+            cell_w, cell_h, x0_src, y0_src = grid
+            cw = cell_w * source_scale
+            ch = cell_h * source_scale
             p.setPen(QPen(QColor(26, 26, 28, 158), 1))
-            x = float(ovx)
-            while x <= w:
-                p.drawLine(QPointF(x, 0), QPointF(x, h))
-                x += cw
-            y = 0.0
-            while y <= h:
-                p.drawLine(QPointF(ovx, y), QPointF(w, y))
-                y += ch
+            p.save()
+            p.setClipRect(QRectF(ovx, 0, w - ovx, h))
+            if cw > 1.0:
+                x0 = x0_src * source_scale - crop_left
+                k0 = math.floor((ovx - x0) / cw) - 1
+                k1 = math.ceil((w - x0) / cw) + 1
+                for k in range(k0, k1 + 1):
+                    x = x0 + k * cw
+                    if ovx <= x <= w:
+                        p.drawLine(QPointF(x, 0), QPointF(x, h))
+            if ch > 1.0:
+                y0 = y0_src * source_scale - crop_top
+                k0 = math.floor((0 - y0) / ch) - 1
+                k1 = math.ceil((h - y0) / ch) + 1
+                for k in range(k0, k1 + 1):
+                    y = y0 + k * ch
+                    if 0 <= y <= h:
+                        p.drawLine(QPointF(ovx, y), QPointF(w, y))
+            p.restore()
         else:
             p.setPen(QColor("#9a9a94"))
             f = p.font(); f.setPointSize(7); p.setFont(f)
@@ -1506,12 +1568,25 @@ class _SingleHeader(QWidget):
 
         if Image and item.image_path and item.image_path.exists():
             try:
-                img = Image.open(item.image_path).convert("RGB")
+                orig = Image.open(item.image_path)
+                dpi_x, dpi_y = dpi_pair(orig)
+                if not dpi_x or not dpi_y:
+                    mx = _positive_float(meta.get("source_dpi_x"))
+                    my = _positive_float(meta.get("source_dpi_y"))
+                    mdpi = _positive_float(meta.get("source_dpi"))
+                    if mx and my:
+                        dpi_x, dpi_y = mx, my
+                    elif mdpi:
+                        dpi_x = dpi_y = mdpi
+                self._preview.set_source_metrics(orig.size, dpi_x, dpi_y)
+                img = orig.convert("RGB")
                 img.thumbnail((344, 260))
                 self._preview.set_image(_pil_to_pixmap(img))
             except Exception:
+                self._preview.set_source_metrics(None)
                 self._preview.set_image(None)
         else:
+            self._preview.set_source_metrics(None)
             self._preview.set_image(None)
 
         self._title.setText(str(meta.get("sample_id", "") or "(untitled)"))
