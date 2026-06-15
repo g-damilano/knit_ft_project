@@ -1,0 +1,147 @@
+# Dropdown option lists for the Knit Grid Catalog GUI.
+# Edit this file to add or modify options without changing code.
+# Reload the app after editing.
+#
+# For "structure_ref", options can be grouped with a section header line
+# starting with "---" — these headers appear in the dropdown but cannot
+# be selected.
+
+measurement_state:
+  - measured
+  - estimated
+  - target
+  - nominal
+
+gauge_source:
+  - image analysis
+  - manual count
+  - datasheet
+  - operator entry
+  - manual entry
+
+machine_ref:
+  - Benchmark scan
+  - Silver Reed SK840
+  - Silver Reed SK280
+  - Silver Reed LK150
+  - Shima SES-122FF
+  - Shima SES-123.6
+  - Shima SES-124
+  - Shima MACH2X
+  - Stoll ADF-3.22
+  - Stoll ADF-3.32
+  - Stoll CMS-530
+  - Brother KH-970
+  - Brother KH-940
+  - Brother KH-910
+  - Dubied N
+  - Hattersley
+  - hand knit
+
+bed_setup:
+  - single bed
+  - double bed
+  - rib
+  - interlock
+  - links-links
+
+structure_ref:
+  - --- Plain ---
+  - plain / stockinette
+  - reverse stockinette
+  - --- Rib ---
+  - rib 1x1
+  - rib 2x1
+  - rib 2x2
+  - rib 3x1
+  - rib 3x2
+  - cardigan rib
+  - fisherman rib
+  - --- Tuck & slip ---
+  - tuck stitch
+  - slip stitch
+  - --- Cable & texture ---
+  - cable
+  - bobble
+  - seed / moss
+  - --- Specialty ---
+  - intarsia
+  - jacquard (single bed)
+  - jacquard (double bed)
+  - plated
+  - pointelle / lace
+  - --- Brushed / specialty yarns ---
+  - fuzzy / brushed
+  - loop pile
+  - velour
+
+yarn_tension:
+  - "-"
+  - "1"
+  - "2"
+  - "3"
+  - "4"
+  - "5"
+  - "6"
+  - "7"
+
+tension_ref:
+  - "n/a"
+  - "1"
+  - "1 1/3"
+  - "1 2/3"
+  - "2"
+  - "2 1/3"
+  - "2 2/3"
+  - "3"
+  - "3 1/3"
+  - "3 2/3"
+  - "4"
+  - "4 1/3"
+  - "4 2/3"
+  - "5"
+  - "5 1/3"
+  - "5 2/3"
+  - "6"
+  - "6 1/3"
+  - "6 2/3"
+  - "7"
+  - "7 1/3"
+  - "7 2/3"
+  - "8"
+  - "8 1/3"
+  - "8 2/3"
+  - "9"
+  - "9 1/3"
+  - "9 2/3"
+  - "10"
+
+axis_order:
+  - row / needle
+  - needle / row
+
+manual_override:
+  - "off"
+  - "on"
+
+brand:
+  - Cima
+  - Lanificio
+  - Filpucci
+  - Lana Grossa
+  - Schachenmayr
+  - Rowan
+  - Drops
+  - Adriafil
+  - Malabrigo
+  - Lang Yarns
+  - Sandnes
+  - Katia
+  - Bergère de France
+  - Austermann
+
+wash_state:
+  - unknown
+  - unwashed
+  - washed
+  - dry cleaned

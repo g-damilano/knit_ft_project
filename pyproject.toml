@@ -1,14 +1,32 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "myproject"
-version = "0.1.0"
-description = "HOG-guided FFT knit spacing estimator"
+name = "knit-grid-catalog-delivery"
+version = "14.2.0"
+description = "GUI and delivery pipeline for knit swatch grid catalog covers, TIFFs, and metadata."
+readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
-    "numpy",
-    "matplotlib",
-    "opencv-python",
+  "numpy",
+  "opencv-python",
+  "Pillow",
+  "numba",
 ]
+
+[project.optional-dependencies]
+build = ["pyinstaller"]
+
+[project.scripts]
+knit-grid-catalog = "knit_grid_catalog_delivery_v14.production.launcher:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+include-package-data = true
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+knit_grid_catalog_delivery_v14 = ["interface/*.yaml"]

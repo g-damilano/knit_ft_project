@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2508 627" width="2508" height="627">
+  <defs>
+    <style>
+      :root { --burgundy: #7a0d24; }
+      .line {
+        fill: none;
+        stroke: var(--burgundy);
+        stroke-width: 9;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+      .line-heavy {
+        fill: none;
+        stroke: var(--burgundy);
+        stroke-width: 11;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+      }
+      .label {
+        fill: var(--burgundy);
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 58px;
+        font-weight: 400;
+        text-anchor: middle;
+        dominant-baseline: middle;
+      }
+    </style>
+  </defs>
+
+  <rect width="2508" height="627" fill="#ffffff"/>
+
+  <g id="spool">
+    <path class="line-heavy" d="M 276 126 C 286 145, 417 145, 427 126 L 459 374 C 464 414, 238 414, 243 374 Z"/>
+    <ellipse class="line-heavy" cx="351" cy="103" rx="67" ry="19"/>
+    <path class="line-heavy" d="M 291 103 L 291 124 C 300 144, 402 144, 411 124 L 411 103"/>
+    <ellipse class="line" cx="351" cy="103" rx="26" ry="5"/>
+    <path class="line-heavy" d="M 274 398 L 274 428 C 298 445, 405 445, 429 428 L 429 398"/>
+    <path class="line-heavy" d="M 274 428 C 298 445, 405 445, 429 428"/>
+    <path class="line" d="M 273 178 L 418 228"/>
+    <path class="line" d="M 429 169 L 266 235"/>
+    <path class="line" d="M 258 244 L 445 296"/>
+    <path class="line" d="M 441 237 L 286 303"/>
+    <path class="line" d="M 249 311 L 446 356"/>
+    <path class="line" d="M 432 315 L 305 360"/>
+    <path class="line" d="M 249 356 C 285 363, 319 368, 351 374 C 380 369, 417 361, 452 353"/>
+    <path class="line" d="M 395 171 L 418 164"/>
+    <path class="line" d="M 411 275 L 438 263"/>
+    <path class="line" d="M 360 340 L 392 331"/>
+    <path class="line" d="M 430 408 C 470 401, 511 401, 514 421 C 517 444, 540 448, 565 448"/>
+    <text class="label" x="351" y="526">T1</text>
+  </g>
+
+  <g id="balance">
+    <circle class="line-heavy" cx="1018" cy="104" r="18"/>
+    <line class="line-heavy" x1="1018" y1="122" x2="1018" y2="148"/>
+    <circle class="line-heavy" cx="1018" cy="161" r="18"/>
+    <line class="line-heavy" x1="872" y1="161" x2="1163" y2="161"/>
+    <line class="line-heavy" x1="1018" y1="179" x2="1018" y2="394"/>
+    <path class="line-heavy" d="M 872 161 L 808 307 L 938 307 Z"/>
+    <path class="line-heavy" d="M 808 307 C 815 365, 931 365, 938 307"/>
+    <path class="line-heavy" d="M 1163 161 L 1096 307 L 1227 307 Z"/>
+    <path class="line-heavy" d="M 1096 307 C 1103 365, 1220 365, 1227 307"/>
+    <path class="line-heavy" d="M 968 394 L 1068 394 L 1068 418 L 968 418 Z"/>
+    <path class="line-heavy" d="M 940 418 L 1096 418 L 1096 441 L 940 441 Z"/>
+    <text class="label" x="1018" y="526">50 g/needle</text>
+  </g>
+
+  <g id="drop">
+    <path class="line-heavy" d="M 1592 104 C 1559 161, 1494 250, 1489 318 C 1485 379, 1532 426, 1589 427 C 1650 428, 1698 382, 1698 319 C 1698 252, 1628 161, 1592 104 Z"/>
+    <path class="line" d="M 1665 333 C 1660 364, 1641 389, 1615 398"/>
+    <text class="label" x="1592" y="526">drop</text>
+  </g>
+
+  <g id="x-drop">
+    <path class="line-heavy" d="M 2167 104 C 2134 161, 2069 250, 2064 318 C 2060 379, 2107 426, 2164 427 C 2225 428, 2273 382, 2273 319 C 2273 252, 2203 161, 2167 104 Z"/>
+    <path class="line" d="M 2240 333 C 2235 364, 2216 389, 2190 398"/>
+    <line class="line-heavy" x1="2027" y1="154" x2="2307" y2="428"/>
+    <line class="line-heavy" x1="2307" y1="154" x2="2027" y2="428"/>
+    <text class="label" x="2167" y="526">X drop</text>
+  </g>
+</svg>

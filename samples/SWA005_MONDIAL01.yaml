@@ -1,0 +1,31 @@
+needles_per_10cm: 34.7
+rows_per_10cm: 54.4
+measurement_state: measured
+gauge_source: image analysis
+sample_id: SWA005_MONDIAL01
+yarn_ref: "Brazil, blue (COL , LOT ), PA microfiber"
+tension_ref: 4
+yarn_tension: n/a
+machine_ref: Silver Reed SK840
+bed_setup: single bed
+structure_ref: plain / stockinette
+axis_order: needle / row
+confidence: 0.766
+brand: Mondial
+preset: "Mondial/Brazil, blue (COL , LOT ), PA microfiber (4, n/a, 523 g/m²)"
+wash_state: unwashed
+operator: ""
+weighting_ref: 50
+weight_gsm: 523
+dye_lot: ""
+fibre_composition: Mondial PA microfiber
+yarn_count: ""
+thread_count: 1
+colour_ref: ""
+notes: "FT assessed, manually verified."
+fiber: PA microfiber
+machine: Silver Reed SK840
+tension: 4
+washed: false
+weight_per_needle_g: 50
+yarn_name: "Brazil, blue (COL , LOT ), PA microfiber"

@@ -1,0 +1,30 @@
+{
+  "available": true,
+  "space": "CIE Lab D65 + sRGB",
+  "roi": {
+    "type": "full_image"
+  },
+  "sampled_pixel_count": 556484,
+  "used_pixel_count": 514499,
+  "ignored_lightness_percent": {
+    "top": 2.0,
+    "bottom": 2.0
+  },
+  "central_colour_percentile": 90.0,
+  "lab_median": [
+    85.9932,
+    2.1964,
+    0.5009
+  ],
+  "srgb_median": [
+    220,
+    214,
+    214
+  ],
+  "srgb_mean": [
+    221,
+    215,
+    215
+  ],
+  "hex_median": "#DCD6D6"
+}

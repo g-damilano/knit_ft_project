@@ -1,0 +1,31 @@
+needles_per_10cm: 30.4
+rows_per_10cm: 74.5
+measurement_state: measured
+gauge_source: image analysis
+sample_id: SWA006_JOE01
+yarn_ref: "Johnstons of Elgin, 3 Ply, Pink"
+tension_ref: 1
+yarn_tension: n/a
+machine_ref: Silver Reed SK840
+bed_setup: single bed
+structure_ref: plain / stockinette
+axis_order: needle / row
+confidence: 0.789
+brand: "Johnstons of Elgin,3 Ply"
+preset: "Johnstons of Elgin,3 Ply/Johnstons of Elgin, 3 Ply, Pink (1, n/a, 321 g/m²)"
+wash_state: unwashed
+operator: ""
+weighting_ref: 50.0
+weight_gsm: 321
+dye_lot: ""
+fibre_composition: "Johnstons of Elgin,3 Ply Lambswool, Cashmere"
+yarn_count: ""
+thread_count: 1
+colour_ref: ""
+notes: approx 55g/m2
+fiber: "Lambswool, Cashmere"
+machine: Silver Reed SK840
+tension: 1
+washed: false
+weight_per_needle_g: 50.0
+yarn_name: "Johnstons of Elgin, 3 Ply, Pink"

@@ -1,0 +1,31 @@
+needles_per_10cm: 37.1
+rows_per_10cm: 48.8
+measurement_state: measured
+gauge_source: image analysis
+sample_id: SWA007_TITANWOOL02
+yarn_ref: "Filo di Scozia N8, white (COL , LOT ), Cotton"
+tension_ref: 1
+yarn_tension: n/a
+machine_ref: Silver Reed SK840
+bed_setup: single bed
+structure_ref: plain / stockinette
+axis_order: needle / row
+confidence: 0.764
+brand: Titanwool
+preset: "Titanwool/Filo di Scozia N8, white (COL , LOT ), Cotton (1, n/a, 200 g/m²)"
+wash_state: washed
+operator: ""
+weighting_ref: 50
+weight_gsm: 200
+dye_lot: ""
+fibre_composition: Titanwool Cotton
+yarn_count: ""
+thread_count: 1
+colour_ref: ""
+notes: "FT assessed, manually verified."
+fiber: Cotton
+machine: Silver Reed SK840
+tension: 1
+washed: false
+weight_per_needle_g: 50
+yarn_name: "Filo di Scozia N8, white (COL , LOT ), Cotton"

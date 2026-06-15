@@ -1,0 +1,26 @@
+needles_per_10cm: 46.6
+rows_per_10cm: 73.9
+measurement_state: measured
+gauge_source: image analysis
+sample_id: SWA003_LANG01
+yarn_ref: "Alpaca Soxx Tweed, 6ply, easywash, whitte (COL , LOT ), 66:29:5 alpaca:PA:wool blend"
+tension_ref: 5
+yarn_tension: n/a
+machine_ref: Silver Reed SK840
+bed_setup: single bed
+structure_ref: plain / stockinette
+axis_order: needle / row
+confidence: 0.797
+brand: Lang Yarns
+preset: "Lang Yarns/Alpaca Soxx Tweed, 6ply, easywash, whitte (COL , LOT ), 66:29:5 alpaca:PA:wool blend (5, n/a)"
+wash_state: unwashed
+operator: ""
+weighting_ref: 50
+weight_gsm: ""
+dye_lot: ""
+fibre_composition: "Lang Yarns 66:29:5 alpaca:PA:wool blend"
+yarn_count: ""
+thread_count: 1
+colour_ref: ""
+notes: ""
+yarn_name: "Alpaca Soxx Tweed, 6ply, easywash, whitte (COL , LOT ), 66:29:5 alpaca:PA:wool blend"

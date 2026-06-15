@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.Python
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# Build and packaging
+build/
+dist/
+build_specs/
+*.egg-info/
+*.spec
+
+# Generated outputs, diagnostics, and historical local archives
+archive/
+outputs/
+swatch/
+runtime_diagnostics/
+diagnostics/
+*.zip
+*_catalog.tif
+*_catalog.tiff
+pink_catalog_layers.tiff
+
+# OS/editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.claude/
+.idea/
+.vscode/
