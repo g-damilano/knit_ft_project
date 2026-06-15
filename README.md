@@ -30,6 +30,41 @@ The package name keeps the `v14` suffix for import and launcher compatibility.
 | --- | --- |
 | ![Knit Grid Catalog inspector showing sample metadata and lattice detection controls](docs/assets/readme-interface-inspector.png) | ![Knit Grid Catalog canvas showing a swatch scan with gauge grid overlay](docs/assets/readme-interface-canvas.png) |
 
+## Cover Image Anatomy
+
+The cover card is rendered by the delivery layer from the original swatch image,
+the detected grid, and the saved sample metadata.
+
+The upper area is the visual swatch reference:
+
+- Left side: a grid-referenced crop of the source swatch image.
+- Right strip: the same crop, lightened with a white scrim, with the detected
+  wale-target grid drawn on top.
+- Vertical divider: separates the natural swatch view from the measurement
+  overlay so the grid can be read without hiding the fabric texture.
+
+The lower band is the catalog label. Its background color is image-reactive:
+the renderer samples the visible source pixels and derives a darker yarn-tinted
+color for the metadata panel.
+
+The label text is arranged as:
+
+- First line: `sample_id | machine_ref`
+- Second line: yarn/fibre description, usually from `yarn_ref` and
+  `fibre_composition`
+- Third line: detected or manually verified gauge, displayed as
+  `stitches per 10 cm | rows per 10 cm`, plus `weight_gsm` when available
+
+The bottom row uses three compact icon columns:
+
+- Thread icon: carriage tension, yarn tension, and thread count
+- Balance icon: take-down weighting, shown as `g/needle`
+- Bed icon: bed setup, such as `single bed`, `double bed`, or rib/interlock
+
+For batch output, `composed_catalog_cover.png` lays multiple cards onto one
+page. Per-sample TIFF page 0 uses the same card language so the cover image and
+layered TIFF stay visually aligned.
+
 ## What The App Does
 
 The maintained application is the PySide6 desktop app in
